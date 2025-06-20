@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool unreadNotifications;
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  final bool unreadGlobalNotifications;
 
-  const CustomAppBar({super.key, this.unreadNotifications = false});
+  const CustomAppBar({super.key, this.unreadGlobalNotifications = false});
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(88);
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  late bool hasUnreadGlobalNotifications;
+
+  @override
+  void initState() {
+    super.initState();
+    hasUnreadGlobalNotifications = widget.unreadGlobalNotifications;
+  }
+
+  void _toggleGlobalNotifications() {
+    setState(() {
+      hasUnreadGlobalNotifications = !hasUnreadGlobalNotifications;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +57,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     children: [
                       IconButton(
                         style: IconButton.styleFrom(padding: EdgeInsets.zero),
-                        onPressed: () {},
+                        onPressed: _toggleGlobalNotifications,
                         icon: Icon(
                           Icons.notifications_outlined,
                           color: Color(0xFF9394A0),
@@ -43,7 +65,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       ),
                       // Red dot for unread notifications
-                      if (unreadNotifications)
+                      if (hasUnreadGlobalNotifications)
                         Positioned(
                           right: 12,
                           top: 14,
@@ -77,7 +99,4 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(88);
 }
