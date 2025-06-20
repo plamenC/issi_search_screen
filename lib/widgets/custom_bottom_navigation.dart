@@ -49,37 +49,40 @@ class CustomBottomNavigation extends StatelessWidget {
   }
 
   Widget _buildCustomNavigationItem(int index, IconData icon, String label) {
-    return GestureDetector(
-      onTap: () => onItemTapped(index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: selectedIndex == index
-                ? 26
-                : 24, //selected icons to appear bolder.
-            // TODO: Ask Jade if she likes it.
-            color: selectedIndex == index
-                ? const Color(0xFF1A237E)
-                : const Color(0x7314162E),
-          ),
-          Text(
-            label,
-            style: TextStyle(
-              fontFamily: 'Verdana',
-              fontWeight: selectedIndex == index
-                  ? FontWeight.w700
-                  : FontWeight.w400,
-              fontSize: 12,
-              height: 1.35,
-              letterSpacing: 0,
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+      child: GestureDetector(
+        onTap: () => onItemTapped(index),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: selectedIndex == index
+                  ? 26
+                  : 24, //selected icons to appear bolder.
+              // TODO: Ask Jade if she likes it.
               color: selectedIndex == index
                   ? const Color(0xFF1A237E)
                   : const Color(0x7314162E),
             ),
-          ),
-        ],
+            Text(
+              label,
+              style: TextStyle(
+                fontFamily: 'Verdana',
+                fontWeight: selectedIndex == index
+                    ? FontWeight.w700
+                    : FontWeight.w400,
+                fontSize: 12,
+                height: 1.35,
+                letterSpacing: 0,
+                color: selectedIndex == index
+                    ? const Color(0xFF1A237E)
+                    : const Color(0x7314162E),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
