@@ -1,0 +1,20 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Focus on the Domain: DDD emphasizes understanding the business domain and modeling the application around it. This involves identifying key concepts, rules, and processes that are specific to the business.
+Layered Architecture: A typical Flutter DDD application follows a layered architecture, which includes the following layers:
+Domain Layer: This layer contains the core business logic, entities, value objects, and domain services. It is independent of other layers and focuses on the business rules.
+Application Layer: This layer handles use cases and coordinates the interaction between the domain layer and the presentation layer. It includes data transfer objects (DTOs) and use cases.
+Infrastructure Layer: This layer provides technical implementations such as data access, external services, and persistence. It depends on the application and domain layers.
+Presentation Layer: This layer is responsible for the user interface and user interactions. It uses state management solutions like Provider, BLoC, or ChangeNotifier to manage the application's state.
+Unidirectional Data Flow: In DDD, the data flow is unidirectional, meaning that the presentation layer interacts with the application layer, which in turn interacts with the domain layer. The infrastructure layer provides the necessary technical support.
+Domain-Driven Design Patterns: DDD incorporates various design patterns such as:
+Entities: Objects with a unique identity that persists over time.
+Value Objects: Objects that are defined by their attributes and do not have a unique identity.
+Aggregates: Clusters of domain objects that are treated as a single unit.
+Repositories: Interfaces that provide access to domain objects.
+Test-Driven Development (TDD): TDD is often used in conjunction with DDD to ensure that the application's business logic is well-tested and reliable. Writing tests before implementing the code helps in defining the requirements and ensures that the code meets the expected behavior.
+Modular and Maintainable Code: DDD encourages the creation of modular and maintainable code by separating concerns and ensuring that each layer has a clear responsibility. This makes it easier to manage and update the application as business requirements evolve.
+Collaboration with Domain Experts: DDD emphasizes collaboration with domain experts to ensure that the application accurately reflects the business processes and rules. This collaboration helps in identifying the key domain concepts and ensuring that the application is aligned with the business needs.

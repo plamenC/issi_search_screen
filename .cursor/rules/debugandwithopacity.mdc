@@ -1,0 +1,7 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+1. Instead of "print()" use "debugPrint()"
+2. 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss.
