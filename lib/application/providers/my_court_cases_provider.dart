@@ -41,23 +41,39 @@ class MyCourtCasesNotifier extends _$MyCourtCasesNotifier {
   @override
   MyCourtCasesState build() {
     _repository = CourtCaseRepository();
-    loadFollowedCases();
-    return const MyCourtCasesState(
+    // Initialize with loading state first
+    state = const MyCourtCasesState(
       followedCases: [],
-      isLoading: false,
+      isLoading: true,
       hasError: false,
       errorMessage: '',
     );
+    // Then load data asynchronously
+    _loadFollowedCasesAsync();
+    return state;
+  }
+
+  Future<void> _loadFollowedCasesAsync() async {
+    try {
+      debugPrint('🔄 Loading followed court cases...');
+      final cases = await _repository.getFollowedCourtCases();
+      state = state.copyWith(followedCases: cases, isLoading: false);
+      debugPrint('✅ Loaded ${cases.length} followed cases');
+    } catch (e) {
+      debugPrint('❌ Error loading followed cases: $e');
+      state = state.copyWith(
+        hasError: true,
+        errorMessage: 'Грешка при зареждане на следваните дела: $e',
+        followedCases: [],
+        isLoading: false,
+      );
+    }
   }
 
   Future<void> loadFollowedCases() async {
-    try {
-      state = state.copyWith(
-        isLoading: true,
-        hasError: false,
-        errorMessage: '',
-      );
+    state = state.copyWith(isLoading: true, hasError: false, errorMessage: '');
 
+    try {
       debugPrint('🔄 Loading followed court cases...');
       final cases = await _repository.getFollowedCourtCases();
       state = state.copyWith(followedCases: cases, isLoading: false);

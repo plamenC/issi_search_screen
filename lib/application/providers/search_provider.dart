@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../domain/models/court_case.dart';
 import '../../infrastructure/repositories/court_case_repository.dart';
@@ -74,20 +75,29 @@ class SearchNotifier extends _$SearchNotifier {
   @override
   SearchState build() {
     _repository = CourtCaseRepository();
-    _loadCaseTypesFromDatabase();
-    _performSearch();
-    return const SearchState(
+
+    // Initialize with loading state first
+    final initialState = const SearchState(
       searchResults: [],
       availableCaseTypes: [],
       caseNumber: '',
       year: '',
       caseType: '',
-      isLoading: false,
+      isLoading: true, // Start with loading true
       isDropdownOpen: false,
       isTextFieldReadOnly: true,
       shouldShowAllOptions: false,
       databaseCases: {},
     );
+
+    // Set the state first
+    state = initialState;
+
+    // Then perform async operations
+    _loadCaseTypesFromDatabase();
+    _performSearch();
+
+    return initialState;
   }
 
   Future<void> _loadCaseTypesFromDatabase() async {

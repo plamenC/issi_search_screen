@@ -49,13 +49,7 @@ class _CourtCasesScreenState extends ConsumerState<CourtCasesScreen>
     } else if (index == 1) {
       // My Court Cases tab selected
       debugPrint('🔄 My Court Cases tab selected, refreshing data');
-      try {
-        ref.read(myCourtCasesNotifierProvider.notifier).refreshFollowedCases();
-      } catch (e) {
-        debugPrint(
-          '⚠️ Provider not ready yet, will load when tab is accessed: $e',
-        );
-      }
+      ref.read(myCourtCasesNotifierProvider.notifier).refreshFollowedCases();
     }
   }
 
@@ -805,11 +799,15 @@ class _CourtCasesScreenState extends ConsumerState<CourtCasesScreen>
             ),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(context);
-              ref
+              await ref
+                  .read(searchNotifierProvider.notifier)
+                  .toggleFollowCase(courtCase.id);
+              // Also refresh the followed cases list to keep it in sync
+              await ref
                   .read(myCourtCasesNotifierProvider.notifier)
-                  .unfollowCase(courtCase.id);
+                  .refreshFollowedCases();
             },
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
             child: Text(
@@ -848,8 +846,6 @@ class _CourtCasesScreenState extends ConsumerState<CourtCasesScreen>
     final currentFollowStatus = await ref
         .read(searchNotifierProvider.notifier)
         .getCurrentFollowStatus(courtCase.id);
-
-    if (!mounted) return;
 
     showDialog(
       context: context,

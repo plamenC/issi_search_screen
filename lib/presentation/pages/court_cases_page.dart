@@ -8,6 +8,8 @@ class CourtCasesPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.watch(courtCaseNotifierProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Court Cases'),
