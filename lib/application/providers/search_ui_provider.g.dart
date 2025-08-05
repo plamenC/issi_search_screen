@@ -1,30 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'my_court_cases_provider.dart';
+part of 'search_ui_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$myCourtCasesNotifierHash() =>
-    r'31d94396394811bd85cf832e8fe806319027198c';
+String _$searchUINotifierHash() => r'bee770bacb0d71e47b72c4bcc83ffdf855a6f731';
 
-/// See also [MyCourtCasesNotifier].
-@ProviderFor(MyCourtCasesNotifier)
-final myCourtCasesNotifierProvider =
-    AutoDisposeNotifierProvider<
-      MyCourtCasesNotifier,
-      MyCourtCasesState
-    >.internal(
-      MyCourtCasesNotifier.new,
-      name: r'myCourtCasesNotifierProvider',
+/// See also [SearchUINotifier].
+@ProviderFor(SearchUINotifier)
+final searchUINotifierProvider =
+    AutoDisposeNotifierProvider<SearchUINotifier, SearchUIState>.internal(
+      SearchUINotifier.new,
+      name: r'searchUINotifierProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$myCourtCasesNotifierHash,
+          : _$searchUINotifierHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$MyCourtCasesNotifier = AutoDisposeNotifier<MyCourtCasesState>;
+typedef _$SearchUINotifier = AutoDisposeNotifier<SearchUIState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

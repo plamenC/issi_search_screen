@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
+// import 'package:webview_flutter_web/webview_flutter_web.dart';
 import 'presentation/screens/home_screen.dart';
 import 'presentation/screens/court_cases_screen.dart';
 import 'presentation/screens/court_hearings_screen.dart';
@@ -16,6 +18,9 @@ import 'infrastructure/theme/app_theme.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  // // Initialize WebView platform for web
+  // WebViewPlatform.instance = WebWebViewPlatform();
 
   // Load environment variables
   await dotenv.load(fileName: ".env");
@@ -67,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _getScreen(int index) {
     switch (index) {
       case 0:
-        return const HomeScreen();
+        return HomeScreen();
       case 1:
         return const CourtCasesScreen();
       case 2:
@@ -77,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 4:
         return const QRScannerScreen();
       default:
-        return const HomeScreen();
+        return HomeScreen();
     }
   }
 
