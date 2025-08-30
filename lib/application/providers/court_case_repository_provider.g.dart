@@ -6,7 +6,7 @@ part of 'court_case_repository_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$filteredCasesHash() => r'01b92529e8456c0a77153eadca0d8601949dde35';
+String _$filteredCasesHash() => r'c83f6b1ab3ad04c3a4cde07f4f53abf5c15dab15';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -206,7 +206,7 @@ class _FilteredCasesProviderElement
   String? get year => (origin as FilteredCasesProvider).year;
 }
 
-String _$followedCasesHash() => r'e1f76ac98cb2514a43a009cb40f1f349af2cbb14';
+String _$followedCasesHash() => r'511a373db0be7f750e0b2ba028f2c328dfc27b87';
 
 /// See also [followedCases].
 @ProviderFor(followedCases)
@@ -225,7 +225,7 @@ final followedCasesProvider =
 // ignore: unused_element
 typedef FollowedCasesRef = AutoDisposeFutureProviderRef<List<CourtCase>>;
 String _$courtCaseRepositoryNotifierHash() =>
-    r'f4d27ca8907c85644066858a5c8dc4bfe5b24c9f';
+    r'7802fe269dcb74ff43a4653b83615ad5af755c7b';
 
 /// See also [CourtCaseRepositoryNotifier].
 @ProviderFor(CourtCaseRepositoryNotifier)

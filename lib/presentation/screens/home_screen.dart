@@ -25,9 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _initializeController() async {
-    if (_persistentController == null) {
-      _persistentController = _createWebViewController();
-    }
+    _persistentController ??= _createWebViewController();
     setState(() {});
   }
 

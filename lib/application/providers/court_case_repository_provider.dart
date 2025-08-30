@@ -111,6 +111,7 @@ class CourtCaseRepositoryNotifier extends _$CourtCaseRepositoryNotifier {
 // Computed providers for derived state
 @riverpod
 List<CourtCase> filteredCases(
+  // ignore: deprecated_member_use
   FilteredCasesRef ref, {
   String? query,
   String? caseType,
@@ -165,7 +166,10 @@ List<CourtCase> filteredCases(
 }
 
 @riverpod
-Future<List<CourtCase>> followedCases(FollowedCasesRef ref) {
+Future<List<CourtCase>> followedCases(
+  // ignore: deprecated_member_use
+  FollowedCasesRef ref,
+) {
   final repository = ref.watch(courtCaseRepositoryNotifierProvider.notifier);
   return repository.getFollowedCases();
 }

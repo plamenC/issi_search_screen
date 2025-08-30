@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:add_2_calendar/add_2_calendar.dart';
 import '../../infrastructure/theme/app_colors.dart';
 import '../../application/providers/search_provider.dart';
 import '../../application/providers/my_court_cases_provider.dart';
@@ -847,6 +848,9 @@ class _CourtCasesScreenState extends ConsumerState<CourtCasesScreen>
         .read(searchNotifierProvider.notifier)
         .getCurrentFollowStatus(courtCase.id);
 
+    // Check if widget is still mounted before using context
+    if (!mounted) return;
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -870,14 +874,16 @@ class _CourtCasesScreenState extends ConsumerState<CourtCasesScreen>
               _buildDetailRow('Съд', fullCase.courtPanel),
               if (fullCase.judgeName != null)
                 _buildDetailRow('Съдия', fullCase.judgeName!),
-              _buildDetailRow(
-                'Дата на подаване',
-                _formatDate(fullCase.filingDate),
-              ),
+              _buildDateRow('Дата на подаване', fullCase.filingDate),
               if (fullCase.hearingDate != null)
-                _buildDetailRow(
+                _buildDateRow(
                   'Дата на заседание',
-                  _formatDate(fullCase.hearingDate!),
+                  fullCase.hearingDate!,
+                  onLongPress: () {
+                    debugPrint(
+                      '📅 Hearing date long pressed: ${fullCase.hearingDate}',
+                    );
+                  },
                 ),
               if (fullCase.description != null &&
                   fullCase.description!.isNotEmpty) ...[
@@ -960,7 +966,11 @@ class _CourtCasesScreenState extends ConsumerState<CourtCasesScreen>
     return '${date.day}/${date.month}/${date.year}';
   }
 
-  Widget _buildDetailRow(String label, String value) {
+  Widget _buildDetailRow(
+    String label,
+    String value, {
+    VoidCallback? onLongPress,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -979,13 +989,62 @@ class _CourtCasesScreenState extends ConsumerState<CourtCasesScreen>
             ),
           ),
           Expanded(
+            child: GestureDetector(
+              onLongPress: onLongPress,
+              child: Text(
+                value,
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.textDark,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDateRow(
+    String label,
+    DateTime date, {
+    VoidCallback? onLongPress,
+  }) {
+    final now = DateTime.now();
+    final isPast = date.isBefore(now);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 80,
             child: Text(
-              value,
+              '$label:',
               style: TextStyle(
-                fontFamily: 'Roboto',
+                fontFamily: 'DejaVu Sans',
                 fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: AppColors.textDark,
+                fontWeight: FontWeight.w600,
+                color: AppColors.primaryIndigo,
+              ),
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              onLongPress: isPast
+                  ? onLongPress
+                  : () => _showCalendarEventDialog(label, date),
+              child: Text(
+                _formatDate(date),
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: isPast ? AppColors.error : AppColors.materialGreen,
+                ),
               ),
             ),
           ),
@@ -1053,5 +1112,107 @@ class _CourtCasesScreenState extends ConsumerState<CourtCasesScreen>
         ),
       ),
     );
+  }
+
+  void _showCalendarEventDialog(String label, DateTime date) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Добавяне в календар',
+          style: TextStyle(
+            fontFamily: 'DejaVu Sans',
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primaryIndigo,
+          ),
+        ),
+        content: Text(
+          'Искате ли да добавите "$label" на ${_formatDate(date)} в календара на устройството?',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: AppColors.textDark,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Откажи',
+              style: TextStyle(
+                fontFamily: 'DejaVu Sans',
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textGrey,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _addToCalendar(label, date);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primaryLightGreenAlt,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            ),
+            child: Text(
+              'Добави',
+              style: TextStyle(
+                fontFamily: 'DejaVu Sans',
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textWhite,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _addToCalendar(String label, DateTime date) {
+    try {
+      debugPrint('📅 Adding to calendar: $label on ${_formatDate(date)}');
+
+      // Create calendar event
+      final Event event = Event(
+        title: label,
+        description: 'Съдебно дело - $label',
+        location: 'Съд',
+        startDate: date,
+        endDate: date.add(const Duration(hours: 1)), // 1 hour duration
+        iosParams: IOSParams(
+          reminder: const Duration(hours: 1), // Reminder 1 hour before
+          url: 'https://issi.bg', // Your app or court website
+        ),
+        androidParams: AndroidParams(
+          emailInvites: [], // No email invites for court cases
+        ),
+      );
+
+      // Add event to calendar
+      Add2Calendar.addEvent2Cal(event);
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Събитието е добавено в календара'),
+          backgroundColor: AppColors.materialGreen,
+        ),
+      );
+    } catch (e) {
+      debugPrint('❌ Error adding to calendar: $e');
+
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Грешка при добавяне в календара'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+    }
   }
 }

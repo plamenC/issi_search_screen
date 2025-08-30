@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../application/providers/theme_provider.dart';
 
 class AppTheme {
-  static const String _themeKey = 'app_theme_mode';
-
   // Light Theme Colors
   static const LightColors lightColors = LightColors();
 
@@ -203,32 +200,32 @@ class AppTheme {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return colors.primaryIndigo;
           }
           return colors.textLight;
         }),
-        trackColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return colors.primaryIndigo.withValues(alpha: 0.5);
           }
           return colors.borderLight;
         }),
       ),
       checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return colors.primaryIndigo;
           }
           return colors.backgroundCard;
         }),
-        checkColor: MaterialStateProperty.all(colors.textWhite),
+        checkColor: WidgetStateProperty.all(colors.textWhite),
         side: BorderSide(color: colors.borderLight),
       ),
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return colors.primaryIndigo;
           }
           return colors.borderLight;
@@ -266,9 +263,9 @@ class AppTheme {
       ),
       menuTheme: MenuThemeData(
         style: MenuStyle(
-          backgroundColor: MaterialStateProperty.all(colors.backgroundCard),
-          elevation: MaterialStateProperty.all(8),
-          shape: MaterialStateProperty.all(
+          backgroundColor: WidgetStateProperty.all(colors.backgroundCard),
+          elevation: WidgetStateProperty.all(8),
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
         ),
@@ -276,15 +273,15 @@ class AppTheme {
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: colors.backgroundCard,
         indicatorColor: colors.primaryIndigo.withValues(alpha: 0.1),
-        labelTextStyle: MaterialStateProperty.all(
+        labelTextStyle: WidgetStateProperty.all(
           TextStyle(
             color: colors.textPrimary,
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
         ),
-        iconTheme: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return IconThemeData(color: colors.primaryIndigo);
           }
           return IconThemeData(color: colors.textLight);

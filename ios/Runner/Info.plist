@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app needs access to calendar to add court hearing dates and filing deadlines.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app needs access to contacts for calendar event location autocomplete.</string>
 </dict>
 </plist>

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../core/utils/debouncer.dart';
-import '../../infrastructure/theme/app_colors.dart';
 
 part 'search_ui_provider.g.dart';
 
@@ -176,7 +175,6 @@ class SearchUINotifier extends _$SearchUINotifier {
     state = state.copyWith(isLoading: loading);
   }
 
-  @override
   void dispose() {
     _searchDebouncer.dispose();
     caseNumberController.dispose();

@@ -45,6 +45,7 @@ dependencies:
   webview_flutter_web: ^0.2.2+4
   webview_flutter_android: ^4.8.2
   webview_flutter_wkwebview: ^3.12.0
+  add_2_calendar: ^3.0.1
 
 dev_dependencies:
   flutter_test:
